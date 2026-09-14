@@ -60,11 +60,11 @@
   <div class="site-shell">
    <header class="site-header sticky top-0 z-50 w-full border-b fine-rule">
     <nav class="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 lg:px-10" aria-label="Navegação principal"><a href="#inicio" data-template-id="header-brand" class="canva-link serif text-base italic tracking-wide" style="color: rgb(29, 29, 26); font-weight: 400; font-style: italic; font-size: 16px;">MINIMALIST</a>
-     <div class="hidden items-center gap-7 md:flex"><a href="#inicio" data-template-id="nav-home" class="canva-link nav-link editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Início</a> <a href="#sobre" data-template-id="nav-about" class="canva-link nav-link editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Sobre</a> <a href="#servicos" data-template-id="nav-services" class="canva-link nav-link editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Serviços</a> <a href="#portfolio" data-template-id="nav-portfolio" class="canva-link nav-link editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Portfólio</a> <a href="#contato" data-template-id="nav-contact" class="canva-link nav-link editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Contato</a>
+     <div class="hidden items-center gap-7 md:flex"><a href="#inicio" data-template-id="nav-home" class="nav-link editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Início</a> <a href="#sobre" data-template-id="nav-about" class="nav-link editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Sobre</a> <a href="#servicos" data-template-id="nav-services" class="nav-link editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Serviços</a> <a href="#portfolio" data-template-id="nav-portfolio" class="nav-link editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Portfólio</a> <a href="#contato" data-template-id="nav-contact" class="nav-link editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Contato</a>
      </div><button id="menu-toggle" type="button" class="rounded-sm p-1 text-[#1d1d1a] md:hidden" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu"> <i data-lucide="menu" width="23" height="23"></i> </button>
     </nav>
     <div id="mobile-menu" class="hidden border-t fine-rule px-5 py-5 md:hidden">
-     <div class="flex flex-col gap-5"><a href="#inicio" data-template-id="mobile-home" class="canva-link editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Início</a> <a href="#sobre" data-template-id="mobile-about" class="canva-link editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Sobre</a> <a href="#servicos" data-template-id="mobile-services" class="canva-link editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Serviços</a> <a href="#portfolio" data-template-id="mobile-portfolio" class="canva-link editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Portfólio</a> <a href="#contato" data-template-id="mobile-contact" class="canva-link editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Contato</a>
+     <div class="flex flex-col gap-5"><a href="#inicio" data-template-id="mobile-home" class="editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Início</a> <a href="#sobre" data-template-id="mobile-about" class="editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Sobre</a> <a href="#servicos" data-template-id="mobile-services" class="editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Serviços</a> <a href="#portfolio" data-template-id="mobile-portfolio" class="editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Portfólio</a> <a href="#contato" data-template-id="mobile-contact" class="editorial-label" style="color: rgb(29, 29, 26); font-weight: 400; font-style: normal; font-size: 16px;">Contato</a>
      </div>
     </div>
    </header>
@@ -366,6 +366,27 @@ A Minimalist resolve.</h2>
         link.addEventListener("click", (event) => {
           event.preventDefault();
           document.getElementById("contato").scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
+
+
+      // Navegação interna: os botões continuam nesta mesma página.
+      document.querySelectorAll('a[href^="#"]').forEach((link) => {
+        link.addEventListener("click", (event) => {
+          const targetId = link.getAttribute("href");
+          if (!targetId || targetId === "#") return;
+
+          const target = document.querySelector(targetId);
+          if (target) {
+            event.preventDefault();
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+            history.replaceState(null, "", targetId);
+
+            if (mobileMenu && !mobileMenu.classList.contains("hidden")) {
+              mobileMenu.classList.add("hidden");
+              menuToggle.setAttribute("aria-expanded", "false");
+            }
+          }
         });
       });
 
